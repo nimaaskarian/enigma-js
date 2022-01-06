@@ -8,22 +8,33 @@
     <style>
       body {
         background-color: #333;
+        margin: 10px;
+      }
+      .text-input,
+      .text-output {
+        color: rgb(120, 214, 169);
+        font-size: 24px;
+        width: calc(100vw - 20px);
+        font-family: inconsolata;
+
       }
       .text-output {
-        color: white;
-        font-size: 24px;
-        font-family: inconsolata;
+       
+        word-wrap: break-word;
+        margin: 0;
+        margin-top: 15px;
+        padding: 0;
       }
-
+      .text-output::selection,
+      .text-input::selection {
+        background-color: rgb(120, 214, 169);
+        color: #333;
+      }
       .text-input {
         background-color: transparent;
         box-shadow: none;
         border: none;
         outline: none;
-
-        color: white;
-        font-size: 24px;
-        font-family: inconsolata;
       }
     </style>
   </head>
