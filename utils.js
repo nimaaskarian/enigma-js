@@ -3,6 +3,7 @@ export function random(max = 1, min = 0) {
 }
 
 export function alphabetsToPositionArray(text) {
+  if (!text) return [];
   var result = "";
   for (var i = 0; i < text.length; i++) {
     var code = text.toUpperCase().charCodeAt(i);

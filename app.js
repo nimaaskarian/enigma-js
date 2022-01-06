@@ -8,14 +8,16 @@ const settings = {
     3: 0,
   },
   reflector: 1,
+  plugboard:["ga","ez"]
 };
-const enigma = new Enigma(settings);
-const enigma2 = new Enigma(settings);
+const input = document.querySelector(".text-input");
+const output = document.querySelector(".text-output");
 
-for (let index = 0; index < 26; index++) {
-  const output = enigma.encrypt(index)
-  console.log(
-    output,
-    enigma2.encrypt(output)
-  );
-}
+input.addEventListener("input", ({ currentTarget: { value } }) => {
+  const enigma = new Enigma(settings);
+  const encryptedArray = alphabetsToPositionArray(value).map((pos) => {
+    if (pos === -1) return;
+    return positionToAlphabet(enigma.encrypt(pos));
+  });
+  output.innerHTML = encryptedArray.toString().replace(/,/g, "");
+});

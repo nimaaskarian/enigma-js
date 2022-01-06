@@ -1,4 +1,6 @@
-const _rotorSettings = [
+import { alphabetsToPositionArray } from "./utils.js";
+//!private constants, proceed with care
+const _ROTOR_SETTINGS = [
   [
     4, 10, 12, 5, 11, 6, 3, 16, 21, 25, 13, 19, 14, 22, 24, 7, 23, 20, 18, 15,
     0, 8, 1, 17, 2, 9,
@@ -24,8 +26,7 @@ const _rotorSettings = [
     14, 5, 4, 2, 10,
   ],
 ];
-
-const _reflectorSettings = [
+const _REFLECTOR_SETTINGS = [
   [
     4, 9, 12, 25, 0, 11, 24, 23, 21, 1, 22, 5, 2, 17, 16, 20, 14, 13, 19, 18,
     15, 8, 10, 7, 6, 3,
@@ -43,19 +44,18 @@ const _reflectorSettings = [
 ];
 class Rotor {
   constructor(rotorSettingsIndex, startIndex, nextRotor) {
-    this.rotorSettings = [..._rotorSettings[rotorSettingsIndex]];
+    this.rotorSettings = [..._ROTOR_SETTINGS[rotorSettingsIndex]];
     if (!this.rotorSettings) throw new Error("This rotor doesn't exist!");
     for (let index = 0; index < startIndex; index++) this.rotate();
     this.startIndex = startIndex;
     this.nextRotor = nextRotor;
   }
   rotate() {
-    // this.startIndex =
-    //   this.startIndex > 24 ? this.startIndex - 24 : this.startIndex + 1;
+    this.startIndex =
+      this.startIndex > 24 ? this.startIndex - 24 : this.startIndex + 1;
 
     const elementToPush = this.rotorSettings.shift();
     this.rotorSettings.push(elementToPush);
-    console.log(this.rotorSettings);
   }
   input(pos) {
     return this.rotorSettings[pos];
@@ -63,8 +63,8 @@ class Rotor {
 }
 class Reflector extends Rotor {
   constructor(reflectorSettingsIndex) {
-    super(reflectorSettingsIndex, 0, null, _reflectorSettings);
-    this.rotorSettings = [..._reflectorSettings[reflectorSettingsIndex]];
+    super(reflectorSettingsIndex, 0, null, _REFLECTOR_SETTINGS);
+    this.rotorSettings = [..._REFLECTOR_SETTINGS[reflectorSettingsIndex]];
   }
 }
 class Enigma {
@@ -76,14 +76,23 @@ class Enigma {
       );
     });
     this.reflector = new Reflector(machineSettings.reflector);
+    this.plugboard = {};
+    machineSettings.plugboard.forEach((e) => {
+      this.plugboard[alphabetsToPositionArray(e)[0]] =
+        alphabetsToPositionArray(e)[1];
+      this.plugboard[alphabetsToPositionArray(e)[1]] =
+        alphabetsToPositionArray(e)[0];
+    });
+    console.log(this.plugboard);
   }
   encrypt(input) {
-    // if (this.a.startIndex === this.a.rotorSettings.notch) this.b.rotate();
+    if (this.plugboard[input] !== undefined) input = this.plugboard[input];
+    if (this.a.startIndex === 25) this.b.rotate();
 
-    // if (this.b.startIndex === this.a.rotorSettings.notch) this.c.rotate();
+    if (this.b.startIndex === 25) this.c.rotate();
 
     const throughRotorsOnce = this.c.input(this.b.input(this.a.input(input)));
-    const output = this.a.rotorSettings.findIndex(
+    let output = this.a.rotorSettings.findIndex(
       (ae) =>
         ae ===
         this.b.rotorSettings.findIndex(
@@ -96,6 +105,8 @@ class Enigma {
     );
 
     this.a.rotate();
+    if (this.plugboard[output] !== undefined) output = this.plugboard[output];
+
     return output;
   }
 }
