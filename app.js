@@ -8,7 +8,7 @@ const settings = {
     3: 0,
   },
   reflector: 1,
-  plugboard:["ga","ez"]
+  plugboard:["ab","cd"]
 };
 const input = document.querySelector(".text-input");
 const output = document.querySelector(".text-output");

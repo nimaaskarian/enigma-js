@@ -83,7 +83,7 @@ class Enigma {
       this.plugboard[alphabetsToPositionArray(e)[1]] =
         alphabetsToPositionArray(e)[0];
     });
-    console.log(this.plugboard);
+
   }
   encrypt(input) {
     if (this.plugboard[input] !== undefined) input = this.plugboard[input];

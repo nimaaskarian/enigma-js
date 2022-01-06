@@ -22,7 +22,6 @@ export function rotorConstructor() {
   let wires = new Set();
   while (wires.size < 26) {
     wires.add(random(25));
-    //console.log([...wires].filter((e,i)=> e !== i))
     wires = new Set([...wires].filter((e, i) => e !== i));
   }
   wires = [...wires];
