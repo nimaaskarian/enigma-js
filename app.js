@@ -1,16 +1,18 @@
-import { rotorConstructor } from "./utils.js";
-import { _rotorSettings } from "./enigma.js";
-console.log(JSON.stringify(rotorConstructor()));
+import Enigma from "./enigma.js";
+import { alphabetsToPositionArray, positionToAlphabet } from "./utils.js";
+const settings = {
+  rotors: {
+    1: 5,
+    2: 2,
 
+    4: 1,
+  },
+  reflector: 1,
+};
+const enigma = new Enigma(settings);
+const enigma2 = new Enigma(settings);
 
-let c = new Rotor(2, 0);
-let b = new Rotor(1, 0, c);
-let a = new Rotor(0, 0, b, true);
-
-let output = rotors(a, b, c, 5);
-console.log(output);
-let c2 = new Rotor(2, 0);
-let b2 = new Rotor(1, 0, c2);
-let a2 = new Rotor(0, 0, b2, true);
-
-console.log(rotors(a2, b2, c2, output));
+for (let index = 0; index < 26; index++) {
+  const output = enigma.encrypt(index);
+  console.log(output, enigma2.encrypt(output));
+}

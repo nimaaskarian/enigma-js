@@ -57,35 +57,57 @@ const _reflectorSettings = [
   },
 ];
 class Rotor {
-  constructor(rotorSettingsIndex, startIndex, nextRotor) {
-    this.rotorSettings = _rotorSettings[rotorSettingsIndex];
+  constructor(
+    rotorSettingsIndex,
+    startIndex,
+    nextRotor,
+    settings = _rotorSettings
+  ) {
+    this.rotorSettings = settings[rotorSettingsIndex];
     if (!this.rotorSettings) throw new Error("This rotor doesn't exist!");
-    this.startIndex = startIndex;
+    for (let index = 0; index < startIndex; index++) this.rotate();
+
     this.nextRotor = nextRotor;
   }
   rotate() {
-    const nextIndex = this.startIndex + 1;
-    this.startIndex = nextIndex > 25 ? nextIndex - 25 : nextIndex;
+    const elementToPush = this.rotorSettings.wires.pop();
+    this.rotorSettings.wires.push(elementToPush);
   }
-  input(letterIndex) {
-    const index = this.startIndex + letterIndex;
-    // console.log(this.rotorSettings);
-    // console.log(this.startIndex, letterIndex);
-    return this.rotorSettings.wires[index > 25 ? index - 25 : index];
+  input(pos) {
+    return this.rotorSettings.wires[pos];
+  }
+}
+class Reflector extends Rotor {
+  constructor(reflectorSettingsIndex) {
+    super(reflectorSettingsIndex, 0, null, _reflectorSettings);
+  }
+}
+class Enigma {
+  constructor(machineSettings) {
+    ["a", "b", "c"].forEach((key, index) => {
+      this[key] = new Rotor(
+        Object.keys(machineSettings.rotors)[+index],
+        Object.values(machineSettings.rotors)[+index]
+      );
+    });
+    this.reflector = new Reflector(machineSettings.reflector);
+  }
+  encrypt(input) {
+    if (this.a.nextRotor)
+      if (this.a.startIndex === this.a.rotorSettings.notch) this.b.rotate();
+    if (this.b.nextRotor)
+      if (this.b.startIndex === this.a.rotorSettings.notch) this.c.rotate();
+
+    const throughRotorsOnce = this.c.input(this.b.input(this.a.input(input)));
+    const cIndex = this.c.rotorSettings.wires.findIndex(
+      (ce) => ce === this.reflector.input(throughRotorsOnce)
+    );
+    const bIndex = this.b.rotorSettings.wires.findIndex((be) => be === cIndex);
+    const output = this.a.rotorSettings.wires.findIndex((ae) => ae === bIndex);
+
+    this.a.rotate();
+    return output;
   }
 }
 
-export function rotors(a, b, c, input) {
-  if (a.nextRotor)
-    if (a.startIndex === a.rotorSettings.notch) a.nextRotor.rotate();
-  const rotated = c.input(b.input(a.input(input)));
-  const reflector = new Rotor(5, 0);
-  const cIndex = c.rotorSettings.wires.findIndex(
-    (ce) => ce === reflector.input(rotated)
-  );
-  const bIndex = b.rotorSettings.wires.findIndex((be) => be === cIndex);
-  const output = a.rotorSettings.wires.findIndex((ae) => ae === bIndex);
-
-  a.rotate();
-  return output;
-}
+export default Enigma;
