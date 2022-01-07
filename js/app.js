@@ -1,15 +1,11 @@
 import Enigma from "./enigma.js";
 import { alphabetsToPositionArray, positionToAlphabet } from "./utils.js";
-const settings = {
-  rotors: {
-    1: 0,
-    2: 0,
 
-    3: 0,
-  },
-  reflector: 1,
-  plugboard:["ab","cd"]
-};
+let req = new XMLHttpRequest()
+req.open("GET", "../settings.json",false)
+req.send(null)
+const settings = JSON.parse(req.responseText);
+
 const input = document.querySelector(".text-input");
 const output = document.querySelector(".text-output");
 

@@ -25,6 +25,18 @@ const _ROTOR_SETTINGS = [
     21, 25, 1, 17, 6, 8, 19, 24, 20, 15, 18, 3, 13, 7, 11, 23, 0, 22, 12, 9, 16,
     14, 5, 4, 2, 10,
   ],
+  [
+    9, 15, 6, 21, 14, 20, 12, 5, 24, 16, 1, 4, 13, 7, 25, 17, 3, 10, 0, 18, 23,
+    11, 8, 2, 19, 22,
+  ],
+  [
+    13, 25, 9, 7, 6, 17, 2, 23, 12, 24, 18, 22, 1, 14, 20, 5, 0, 8, 21, 11, 15,
+    4, 10, 16, 3, 19,
+  ],
+  [
+    5, 10, 16, 7, 19, 11, 23, 14, 2, 1, 9, 18, 15, 3, 25, 17, 0, 12, 4, 22, 13,
+    8, 20, 24, 6, 21,
+  ],
 ];
 const _REFLECTOR_SETTINGS = [
   [
@@ -83,7 +95,6 @@ class Enigma {
       this.plugboard[alphabetsToPositionArray(e)[1]] =
         alphabetsToPositionArray(e)[0];
     });
-
   }
   encrypt(input) {
     if (this.plugboard[input] !== undefined) input = this.plugboard[input];
