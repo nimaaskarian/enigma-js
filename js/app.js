@@ -6,7 +6,7 @@ import {
 } from "./utils.js";
 
 let req = new XMLHttpRequest();
-req.open("GET", "../settings.json", false);
+req.open("GET", "./settings.json", false);
 req.send(null);
 const settings = JSON.parse(req.responseText);
 
