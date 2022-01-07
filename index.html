@@ -16,10 +16,8 @@
         font-size: 24px;
         width: calc(100vw - 20px);
         font-family: inconsolata;
-
       }
       .text-output {
-       
         word-wrap: break-word;
         margin: 0;
         margin-top: 15px;
@@ -36,11 +34,36 @@
         border: none;
         outline: none;
       }
+      .alert-copy,
+      .alert-error {
+        display: inline-block;
+        padding: 10px;
+        font-size: 16px;
+        font-family: inconsolata;
+        border-radius: 4px;
+        position: absolute;
+        bottom: 10px;
+        left: 50%;
+        transform: translateX(-50%);
+        opacity: 0;
+
+        transition: opacity ease-out 400ms;
+      }
+      .alert-copy {
+        background-color: rgb(120, 214, 169);
+        color: #333;
+      }
+      .alert-error{
+        background-color: rgb(255, 86, 86);
+        color: white;
+      }
     </style>
   </head>
   <body>
     <input type="text" name="text" class="text-input" />
     <p class="text-output"></p>
+    <div class="alert-copy">Copied!</div>
+    <div class="alert-error">Error! check console for details</div>
     <script src="./js/app.js" type="module"></script>
   </body>
 </html>
