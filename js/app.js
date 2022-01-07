@@ -38,11 +38,12 @@ input.addEventListener("keydown", ({ key }) => {
           document.querySelector(".alert-copy").style.opacity = 0;
         }, 1500);
       },
-      () => {
+      (err) => {
         document.querySelector(".alert-error").style.opacity = 1;
         setTimeout(() => {
           document.querySelector(".alert-error").style.opacity = 0;
         }, 1500);
+        console.log(err)
       }
     );
   }
