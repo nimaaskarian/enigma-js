@@ -1,12 +1,12 @@
 # Enigma JS
 the original 1930s Enigma with the same logic and a minimalist and modern look. have fun playing around.
 
-just don't send daily weather reports with it. be careful about who you hail too.
+just don't send daily weather reports with it and be careful about who you hail to.
 ## Installation
 download the zip version of master branch and extract it on your local computer. 
 I recommend you using [`serve`](https://www.npmjs.com/package/serve) or some type of static local server utility to open up this on your browser.
 ## Changing the settings
-open up ./settings.json. 
+open up `./settings.json`;
 you can pick 3 rotors from 9 rotors (0,8).
 
 you can set a starting number for each rotor (0,25).
