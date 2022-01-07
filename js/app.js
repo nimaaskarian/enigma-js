@@ -21,6 +21,17 @@ function encryptInputAndShowOutput(input) {
   });
   output.innerHTML = encryptedArray.toString().replace(/,/g, "");
 }
+let lastTimeoutId;
+function showAndHideAlert(alertCssSelector) {
+  return function (err) {
+    clearTimeout(lastTimeoutId);
+    document.querySelector(alertCssSelector).style.opacity = 1;
+    lastTimeoutId = setTimeout(() => {
+      document.querySelector(alertCssSelector).style.opacity = 0;
+    }, 1500);
+    if (err) console.log(err);
+  };
+}
 //event listeners
 window.addEventListener("load", () => {
   input.focus();
@@ -32,19 +43,8 @@ input.addEventListener("keydown", ({ key }) => {
   if (key === "Enter") {
     copyTextToClipboard(
       output.innerText,
-      () => {
-        document.querySelector(".alert-copy").style.opacity = 1;
-        setTimeout(() => {
-          document.querySelector(".alert-copy").style.opacity = 0;
-        }, 1500);
-      },
-      (err) => {
-        document.querySelector(".alert-error").style.opacity = 1;
-        setTimeout(() => {
-          document.querySelector(".alert-error").style.opacity = 0;
-        }, 1500);
-        console.log(err)
-      }
+      showAndHideAlert(".alert-copy"),
+      showAndHideAlert(".alert-error")
     );
   }
 });
