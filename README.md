@@ -4,7 +4,7 @@ You can try it out with its default settings at [here](https://nimaaskarian.gith
 Just don't send daily weather reports with it and be careful about who you hail to.  
 ## Installation
 Download the zip version of this projects master branch and extract it on your local computer. 
-I recommend you to use [`serve`](https://www.npmjs.com/package/serve) or some type of static local server utility to open this project up on your browser.
+I recommend to you to use [`serve`](https://www.npmjs.com/package/serve) or some type of static local server utility to open this project up on your browser.
 ## Changing the settings
 Open `./settings.json`;
 You can pick 3 rotors from 9 rotors (0,8).  
