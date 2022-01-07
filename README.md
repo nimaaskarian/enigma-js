@@ -15,4 +15,4 @@ You can add up to 13 plugs which convert 2 letters to each other on plugboard ([
 ## Advanced
 if you're a power user and you know how to play around with JS, navigate to `./js/utils.js` and use `rotorConstructor` function to create your own rotor wire sets.
 
-then you can add the created settings as a array of number to `./js/enigma.js>_ROTOR_SETTINGS`
+then you can add the settings that you created as a array of number to `./js/enigma.js>_ROTOR_SETTINGS`
