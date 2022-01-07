@@ -24,9 +24,5 @@ export function rotorConstructor() {
     wires.add(random(25));
     wires = new Set([...wires].filter((e, i) => e !== i));
   }
-  wires = [...wires];
-
-  let notch = random(25);
-
-  return { wires, notch };
+  return [...wires];
 }

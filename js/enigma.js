@@ -37,6 +37,10 @@ const _ROTOR_SETTINGS = [
     5, 10, 16, 7, 19, 11, 23, 14, 2, 1, 9, 18, 15, 3, 25, 17, 0, 12, 4, 22, 13,
     8, 20, 24, 6, 21,
   ],
+  [
+    16, 18, 24, 13, 10, 11, 15, 0, 4, 14, 9, 6, 23, 8, 20, 5, 22, 25, 3, 17, 21,
+    2, 19, 1, 12, 7,
+  ],
 ];
 const _REFLECTOR_SETTINGS = [
   [
@@ -81,6 +85,10 @@ class Reflector extends Rotor {
 }
 class Enigma {
   constructor(machineSettings) {
+    if(Object.keys(machineSettings.rotors).length !== 3){
+      throw new Error("You must use 3 rotors")
+    }
+
     ["a", "b", "c"].forEach((key, index) => {
       this[key] = new Rotor(
         Object.keys(machineSettings.rotors)[+index],
