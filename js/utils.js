@@ -27,7 +27,7 @@ export function rotorConstructor() {
   return [...wires];
 }
 
-function fallbackCopyTextToClipboard(text) {
+function fallbackCopyTextToClipboard(text, onCopy, onError) {
   var textArea = document.createElement("textarea");
   textArea.value = text;
 
@@ -41,11 +41,10 @@ function fallbackCopyTextToClipboard(text) {
   textArea.select();
 
   try {
-    var successful = document.execCommand("copy");
-    var msg = successful ? "successful" : "unsuccessful";
-    console.log("Fallback: Copying text command was " + msg);
+    document.execCommand("copy");
+    onCopy();
   } catch (err) {
-    console.error("Fallback: Oops, unable to copy", err);
+    onError(err);
   }
 
   document.body.removeChild(textArea);
@@ -56,7 +55,7 @@ export function copyTextToClipboard(
   onError = new Function()
 ) {
   if (!navigator.clipboard) {
-    fallbackCopyTextToClipboard(text);
+    fallbackCopyTextToClipboard(text, onCopy, onError);
     return;
   }
   navigator.clipboard.writeText(text).then(onCopy, onError);
