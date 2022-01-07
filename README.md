@@ -13,6 +13,6 @@ you can set a starting number for each rotor (0,25).
 
 you can add up to 13 convertions on plugboard (["ab","cd"] means "a" will be converted to "b", "c" will be converted to "d" and vice verca) 
 ## Advanced
-if you're a power user and you can make your own rotor using `rotorConstructor` from `./js/utils.js`
+if you're a power user and you know how to play around with JS, then you can make your own rotor using `rotorConstructor` from `./js/utils.js`
 
 then you can add the created settings as a array of number to `./js/enigma.js>_ROTOR_SETTINGS`
