@@ -106,13 +106,13 @@ class Enigma {
         alphabetsToPositionArray(e)[0];
     });
     if (
-      !Object.keys(this.plugboard).equals(
+      !Object.keys(this.plugboard).sort().equals(
         Object.values(this.plugboard)
           .map((e) => +e)
           .sort()
       )
     )
-      throw new Error("You can't plug two cables to one plugs at same time");
+      throw new Error("You can't plug two cables to one plug at the same time");
   }
   encrypt(input) {
     if (this.plugboard[input] !== undefined) input = this.plugboard[input];
