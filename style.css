@@ -1,13 +1,14 @@
 body {
-  background-color: #333;
   margin: 10px;
+  font-family: Inconsolata;
 }
 .text-input,
 .text-output {
-  color: rgb(120, 214, 169);
-  font-size: 24px;
-  width: calc(100vw - 20px);
   font-family: Inconsolata;
+
+  font-size: 32px;
+  width: calc(100vw - 20px);
+  text-align: center;
 }
 .text-output {
   word-wrap: break-word;
@@ -15,23 +16,18 @@ body {
   margin-top: 15px;
   padding: 0;
 }
-.text-output::selection,
-.text-input::selection {
-  background-color: rgb(120, 214, 169);
-  color: #333;
-}
+
 .text-input {
   background-color: transparent;
   box-shadow: none;
   border: none;
   outline: none;
 }
-.alert-copy,
+.alert,
 .alert-error {
   display: inline-block;
   padding: 10px;
   font-size: 16px;
-  font-family: Inconsolata;
   border-radius: 4px;
   position: absolute;
   bottom: 10px;
@@ -41,11 +37,125 @@ body {
 
   transition: opacity ease-out 400ms;
 }
-.alert-copy {
-  background-color: rgb(120, 214, 169);
-  color: #333;
-}
-.alert-error{
+.alert-error {
   background-color: rgb(255, 86, 86);
   color: white;
+}
+.modal {
+  height: calc(100vh - 20px);
+  width: calc(100vw - 20px);
+  padding: 10px;
+  position: absolute;
+  top: 0;
+  left: 0;
+  justify-content: center;
+  align-items: center;
+}
+.modal.settings input {
+  background-color: transparent;
+  box-shadow: none;
+  border: none;
+  outline: none;
+}
+.modal.settings button {
+  font-family: Inconsolata;
+  display: inline;
+  border: transparent;
+  border-radius: 4px;
+  padding: 10px;
+  transition: ease-out 200ms;
+  width: 100px;
+  margin-top: 20px;
+  margin-left: calc(100% - 100px);
+}
+.themes-options {
+  display: flex;
+  flex-wrap: nowrap;
+}
+.themes-options a {
+  position: relative;
+}
+.themes-options .number {
+  left: 50%;
+  transform: translateX(-50%);
+}
+.modal i {
+  font-size: 32px;
+}
+.modal a {
+  user-select: none;
+}
+.menu-options {
+  display: flex;
+  flex-direction: row;
+}
+.menu-options a {
+  position: relative;
+  text-decoration: none;
+  margin: 0 30px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  cursor: pointer;
+}
+.enigma {
+  justify-content: center;
+  display: flex;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  flex-direction: column;
+  transform: translate(-50%, -50%);
+}
+.menu-options a span {
+  margin: 10px;
+}
+.themes-options a span:not(.number) {
+  margin: 10px;
+  padding: 10px;
+  border-radius: 4px;
+  cursor: pointer;
+}
+.modal .number {
+  display: none;
+  position: absolute;
+  top: -4ch;
+  text-decoration: underline;
+}
+.blackwhite span:not(.number) {
+  background-color: #000;
+  color: #ffffff !important;
+}
+.coffee span:not(.number) {
+  background-color: #b48c69;
+  color: #000 !important;
+}
+.rockstar span:not(.number) {
+  background-color: #f2a200;
+  color: #000000 !important;
+}
+.monokai span:not(.number) {
+  background-color: #333;
+  color: #f6ed66 !important;
+}
+.slytherin span:not(.number) {
+  background-color: #222;
+  color: #78d6a9 !important;
+}
+.matrix span:not(.number) {
+  background-color: #000;
+  color: #03a062 !important;
+}
+.vscode span:not(.number) {
+  background-color: #1e1e1e;
+  color: #007acc !important;
+}
+.whiteblack span:not(.number) {
+  background-color: #fff;
+  color: #000 !important;
+}
+
+.wwii span:not(.number) {
+  color: #3a3a3a !important;
+  background-color: #767a3a;
 }

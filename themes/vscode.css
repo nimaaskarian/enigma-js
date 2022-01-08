@@ -1,0 +1,32 @@
+:root {
+  --background: #1e1e1e;
+  --forground: #007acc;
+}
+
+.text-input,
+.text-output,
+.modal * {
+  color: var(--forground);
+}
+.text-output::selection,
+.text-input::selection,
+.modal.settings input::selection,
+.alert {
+  background-color: var(--forground);
+  color: #d4d4d4;
+}
+
+
+.modal.settings button{
+color: var(--forground);
+background-color: var(--background);
+border: solid 2px var(--forground);
+}
+.modal.settings button:hover{
+background-color: var(--forground);
+color: var(--background);
+}
+body,
+.modal {
+  background-color: var(--background);
+}

@@ -79,14 +79,14 @@ class Rotor {
 }
 class Reflector extends Rotor {
   constructor(reflectorSettingsIndex) {
-    super(reflectorSettingsIndex, 0, null, _REFLECTOR_SETTINGS);
+    super(reflectorSettingsIndex, 0);
     this.rotorSettings = [..._REFLECTOR_SETTINGS[reflectorSettingsIndex]];
   }
 }
 class Enigma {
   constructor(machineSettings) {
-    if(Object.keys(machineSettings.rotors).length !== 3){
-      throw new Error("You must use 3 rotors")
+    if (Object.keys(machineSettings.rotors).length !== 3) {
+      throw new Error("Enigma needs exact 3 distinct rotors");
     }
 
     ["a", "b", "c"].forEach((key, index) => {
@@ -96,6 +96,8 @@ class Enigma {
       );
     });
     this.reflector = new Reflector(machineSettings.reflector);
+    if (!machineSettings.reflector || !this.reflector)
+      throw new Error("Enigma needs a reflector");
     this.plugboard = {};
     machineSettings.plugboard.forEach((e) => {
       this.plugboard[alphabetsToPositionArray(e)[0]] =
@@ -103,6 +105,14 @@ class Enigma {
       this.plugboard[alphabetsToPositionArray(e)[1]] =
         alphabetsToPositionArray(e)[0];
     });
+    if (
+      !Object.keys(this.plugboard).equals(
+        Object.values(this.plugboard)
+          .map((e) => +e)
+          .sort()
+      )
+    )
+      throw new Error("You can't plug two cables to one plugs at same time");
   }
   encrypt(input) {
     if (this.plugboard[input] !== undefined) input = this.plugboard[input];

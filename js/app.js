@@ -4,11 +4,29 @@ import {
   positionToAlphabet,
   copyTextToClipboard,
 } from "./utils.js";
+window.location.hash = "";
+function loadLocalstorageTheme() {
+  const theme = localStorage.getItem("theme") || "matrix";
+  const themeStyleElement = document.createElement("link");
+
+  let link = document.querySelector("link[rel~='icon']");
+  if (!link) {
+    link = document.createElement("link");
+    link.rel = "icon";
+    document.getElementsByTagName("head")[0].appendChild(link);
+  }
+
+  link.href = `./icons/${theme}.png`;
+  themeStyleElement.setAttribute("rel", "stylesheet");
+  themeStyleElement.setAttribute("href", `./themes/${theme}.css`);
+  document.querySelector("head").appendChild(themeStyleElement);
+}
+loadLocalstorageTheme();
 
 let req = new XMLHttpRequest();
 req.open("GET", "./settings.json", false);
 req.send(null);
-const settings = JSON.parse(req.responseText);
+let settings = JSON.parse(req.responseText);
 
 const input = document.querySelector(".text-input");
 const output = document.querySelector(".text-output");
@@ -32,22 +50,148 @@ function showAndHideAlert(alertCssSelector) {
     if (err) console.log(err);
   };
 }
+function toggleModal(cssClass, isNone) {
+  isNone =
+    isNone === undefined
+      ? document.querySelector(`.modal.${cssClass}`).style.display
+      : isNone;
+
+  document.querySelector(`.modal.${cssClass}`).style.display =
+    isNone === "none" ? "flex" : "none";
+}
+function setNumbersIsEnable(isEnable, cssClass = "menu") {
+  document
+    .querySelectorAll(`.modal.${cssClass} .number`)
+    .forEach((e) => (e.style.display = isEnable ? "block" : "none"));
+}
+function clickNumber(e, cssClass = "menu") {
+  let clickedNumber = +e.code.replace("Digit", "");
+  if (clickedNumber) {
+    try {
+      document
+        .querySelectorAll(`.modal.${cssClass} a`)
+        [clickedNumber - 1].click();
+      e.preventDefault();
+    } catch (error) {}
+  }
+}
 //event listeners
 window.addEventListener("load", () => {
   input.focus();
   input.setSelectionRange(input.value.length, input.value.length);
   encryptInputAndShowOutput(input.value);
 });
-
-input.addEventListener("keydown", ({ key }) => {
-  if (key === "Enter") {
+window.addEventListener("blur", () => {
+  setNumbersIsEnable(false);
+  setNumbersIsEnable(false, "themes");
+});
+window.addEventListener("keydown", (e) => {
+  if (
+    document.querySelector(".modal.themes").style.display !== "none" ||
+    document.querySelector(".modal.menu").style.display !== "none" ||
+    document.querySelector(".modal.settings").style.display !== "none"
+  ) {
+    input.blur();
+  } else {
+    input.focus();
+  }
+  if (e.key === "Enter") {
     copyTextToClipboard(
       output.innerText,
-      showAndHideAlert(".alert-copy"),
-      showAndHideAlert(".alert-error")
+      showAndHideAlert(".alert.copy"),
+      showAndHideAlert(".alert-error.copy")
     );
   }
+  if (e.key === "Escape") {
+    let { hash } = document.location;
+    if (hash === "#" || !hash) {
+      toggleModal("menu");
+      input.focus();
+    } else {
+      window.location.hash = "";
+    }
+  }
+  if (e.shiftKey) {
+    if (document.querySelector(".modal.themes").style.display !== "none") {
+      setNumbersIsEnable(true, "themes");
+      clickNumber(e, "themes");
+    } else if (document.querySelector(".modal.menu").style.display !== "none") {
+      setNumbersIsEnable(true);
+      clickNumber(e);
+    }
+  }
+});
+
+window.addEventListener("keyup", (e) => {
+  if (e.key === "Shift") {
+    e.preventDefault();
+    setNumbersIsEnable(false);
+    setNumbersIsEnable(false, "themes");
+  }
+});
+window.addEventListener("hashchange", () => {
+  let { hash } = document.location;
+  switch (hash) {
+    case "#settings":
+      toggleModal("settings");
+
+      break;
+    case "#themes":
+      toggleModal("themes");
+      break;
+    default:
+      toggleModal("themes", false);
+      toggleModal("settings", false);
+      break;
+  }
+});
+document.querySelectorAll(".modal.themes a").forEach((e) => {
+  e.addEventListener("click", ({ currentTarget }) => {
+    localStorage.setItem("theme", currentTarget.classList[0]);
+    loadLocalstorageTheme();
+  });
 });
 input.addEventListener("input", ({ currentTarget: { value } }) => {
   encryptInputAndShowOutput(value);
+});
+function getSettingsFromInputs() {
+  const rings = document.querySelectorAll(".settings-form .ring");
+  const rotorIndexs = document.querySelectorAll(".settings-form .rotor");
+  const reflector = +document.querySelector(".settings-form .reflector").value;
+  const plugboard = document
+    .querySelector(".settings-form .plugs")
+    .value.split(/\s*,\s*/g)
+    .filter((e) => !!e);
+
+  let rotors = {};
+  rotorIndexs.forEach((e, i) => {
+    rotors[e.value] = rings[i].value;
+  });
+  return { rotors, reflector, plugboard };
+}
+document.querySelector(".settings-form").addEventListener("submit", (e) => {
+  e.preventDefault();
+  try {
+    new Enigma(getSettingsFromInputs());
+    settings = getSettingsFromInputs();
+    showAndHideAlert(".alert.save")();
+    window.location.hash = "";
+  } catch (error) {
+    showAndHideAlert(".alert-error.save")(error);
+  }
+});
+document.querySelector(".settings-btn-json").addEventListener("click", () => {
+  const type = "text/json";
+  const a = document.createElement("a"),
+    url = URL.createObjectURL(
+      new Blob([JSON.stringify(getSettingsFromInputs())], { type })
+    );
+  a.href = url;
+  a.download = "settings.json";
+  document.body.appendChild(a);
+  a.click();
+  setTimeout(() => {
+    document.body.removeChild(a);
+    window.URL.revokeObjectURL(url);
+  }, 0);
 });

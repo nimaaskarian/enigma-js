@@ -1,0 +1,36 @@
+.text-input,
+.modal * {
+  color: #3a3a3a;
+}
+.text-output {
+  color: #c9b576;
+}
+.text-output::selection {
+  background-color: #c9b576;
+
+  color: #ffffff;
+}
+.text-input::selection,
+.modal.settings input::selection,
+.alert {
+  color: #ffffff;
+  background-color: #3a3a3a;
+}
+
+
+.modal.settings button{
+color: #3a3a3a;
+background-color: #767a3a;
+border: solid 2px #3a3a3a;
+}
+.modal.settings button:hover{
+background-color: #c9b576;
+color: #ffffff;
+border: solid 2px #c9b576;
+
+
+}
+body,
+.modal {
+  background-color: #767a3a;
+}
