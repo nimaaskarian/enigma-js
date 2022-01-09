@@ -98,15 +98,16 @@ class Enigma {
           Object.values(machineSettings.rotors)[+index]
         );
       } catch (error) {
-        console.log(error)
+        console.log(error);
       }
       this.rotors[key].notch = 25;
       console.log(machineSettings.notchs);
-      if (
-        machineSettings.notchs||[][+index] ||
-        machineSettings.notchs||[][+index] === 0
-      )
-        this.rotors[key].notch = machineSettings.notchs[+index];
+      if (machineSettings.notch)
+        if (
+          machineSettings.notchs[+index] ||
+          machineSettings.notchs[+index] === 0
+        )
+          this.rotors[key].notch = machineSettings.notchs[+index];
     });
 
     this.reflector = new Reflector(machineSettings.reflector);
