@@ -103,8 +103,8 @@ class Enigma {
       this.rotors[key].notch = 25;
       console.log(machineSettings.notchs);
       if (
-        machineSettings.notchs[+index] ||
-        machineSettings.notchs[+index] === 0
+        machineSettings.notchs||[][+index] ||
+        machineSettings.notchs||[][+index] === 0
       )
         this.rotors[key].notch = machineSettings.notchs[+index];
     });
