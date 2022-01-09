@@ -1,3 +1,7 @@
+:root{
+  --foreground2:var(--foreground);
+  --background2:var(--background):
+}
 body {
   margin: 10px;
   font-family: Inconsolata;
@@ -122,40 +126,30 @@ body {
   top: -4ch;
   text-decoration: underline;
 }
-.blackwhite span:not(.number) {
-  background-color: #000;
-  color: #ffffff !important;
+.text-input,
+.text-output,
+.modal * {
+  color: var(--foreground);
 }
-.coffee span:not(.number) {
-  background-color: #b48c69;
-  color: #000 !important;
-}
-.rockstar span:not(.number) {
-  background-color: #f2a200;
-  color: #000000 !important;
-}
-.monokai span:not(.number) {
-  background-color: #333;
-  color: #f6ed66 !important;
-}
-.slytherin span:not(.number) {
-  background-color: #222;
-  color: #78d6a9 !important;
-}
-.matrix span:not(.number) {
-  background-color: #000;
-  color: #03a062 !important;
-}
-.vscode span:not(.number) {
-  background-color: #1e1e1e;
-  color: #007acc !important;
-}
-.whiteblack span:not(.number) {
-  background-color: #fff;
-  color: #000 !important;
+.text-output::selection,
+.text-input::selection,
+.modal.settings input::selection,
+.alert {
+  background-color: var(--foreground);
+  color: var(--background);
 }
 
-.wwii span:not(.number) {
-  color: #3a3a3a !important;
-  background-color: #767a3a;
+
+.modal.settings button{
+color: var(--foreground);
+background-color: var(--background);
+border: solid 2px var(--foreground);
+}
+.modal.settings button:hover{
+background-color: var(--foreground);
+color: var(--background);
+}
+body,
+.modal {
+  background-color: var(--background);
 }

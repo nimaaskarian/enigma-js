@@ -4,22 +4,44 @@ import {
   positionToAlphabet,
   copyTextToClipboard,
 } from "./utils.js";
+import themes from "./themes.js";
 window.location.hash = "";
+Object.keys(themes).forEach((themeName, index) => {
+  const theme = themes[themeName]
+  const themeElement = document.createElement("a");
+  const numberElement = document.createElement("span");
+  const nameElement = document.createElement("span");
+
+  nameElement.innerText = themeName;
+  themeElement.classList.add(themeName);
+  numberElement.classList.add("number");
+  numberElement.innerText = +index + 1;
+
+  themeElement.appendChild(numberElement);
+  themeElement.appendChild(nameElement);
+  nameElement.style.setProperty("color", theme.foreground)
+  nameElement.style.setProperty("background-color", theme.background)
+
+  document.querySelector(".themes-options").append(themeElement);
+});
 function loadLocalstorageTheme() {
-  const theme = localStorage.getItem("theme") || "matrix";
-  const themeStyleElement = document.createElement("link");
+  const theme = localStorage.getItem("theme") || "slythrin";
 
-  let link = document.querySelector("link[rel~='icon']");
-  if (!link) {
-    link = document.createElement("link");
-    link.rel = "icon";
-    document.getElementsByTagName("head")[0].appendChild(link);
+  let faviconElement = document.querySelector("link[rel~='icon']");
+
+  if (!faviconElement) {
+    faviconElement = document.createElement("link");
+    faviconElement.rel = "icon";
+    document.getElementsByTagName("head")[0].appendChild(faviconElement);
   }
+  document
+    .querySelector(":root")
+    .style.setProperty("--background", themes[theme].background);
+  document
+    .querySelector(":root")
+    .style.setProperty("--foreground", themes[theme].foreground);
 
-  link.href = `./icons/${theme}.png`;
-  themeStyleElement.setAttribute("rel", "stylesheet");
-  themeStyleElement.setAttribute("href", `./themes/${theme}.css`);
-  document.querySelector("head").appendChild(themeStyleElement);
+  faviconElement.href = `./icons/${theme}.png`;
 }
 loadLocalstorageTheme();
 
