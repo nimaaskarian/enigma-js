@@ -25,7 +25,7 @@ Object.keys(themes).forEach((themeName, index) => {
   document.querySelector(".themes-options").append(themeElement);
 });
 function loadLocalstorageTheme() {
-  const theme = localStorage.getItem("theme") || "slythrin";
+  const theme = localStorage.getItem("theme") || "slytherin";
 
   let faviconElement = document.querySelector("link[rel~='icon']");
 
