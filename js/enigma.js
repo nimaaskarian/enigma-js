@@ -89,12 +89,22 @@ class Enigma {
       throw new Error("Enigma needs exact 3 distinct rotors");
     }
 
+    this.rotors = {};
     ["a", "b", "c"].forEach((key, index) => {
-      this[key] = new Rotor(
+      this.rotors[key] = {};
+      this.rotors[key].wires = new Rotor(
         Object.keys(machineSettings.rotors)[+index],
         Object.values(machineSettings.rotors)[+index]
       );
+      this.rotors[key].notch = 25;
+      console.log(machineSettings.notchs);
+      if (
+        machineSettings.notchs[+index] ||
+        machineSettings.notchs[+index] === 0
+      )
+        this.rotors[key].notch = machineSettings.notchs[+index];
     });
+
     this.reflector = new Reflector(machineSettings.reflector);
     if (!machineSettings.reflector || !this.reflector)
       throw new Error("Enigma needs a reflector");
@@ -106,34 +116,40 @@ class Enigma {
         alphabetsToPositionArray(e)[0];
     });
     if (
-      !Object.keys(this.plugboard).sort().equals(
-        Object.values(this.plugboard)
-          .map((e) => +e)
-          .sort()
-      )
+      !Object.keys(this.plugboard)
+        .sort()
+        .equals(
+          Object.values(this.plugboard)
+            .map((e) => +e)
+            .sort()
+        )
     )
       throw new Error("You can't plug two cables to one plug at the same time");
   }
   encrypt(input) {
     if (this.plugboard[input] !== undefined) input = this.plugboard[input];
-    if (this.a.startIndex === 25) this.b.rotate();
+    const { a, b, c } = this.rotors;
+    console.log(this.rotors);
+    if (a.wires.startIndex === a.notch) b.wires.rotate();
 
-    if (this.b.startIndex === 25) this.c.rotate();
+    if (b.wires.startIndex === b.notch) c.wires.rotate();
 
-    const throughRotorsOnce = this.c.input(this.b.input(this.a.input(input)));
-    let output = this.a.rotorSettings.findIndex(
+    const throughRotorsOnce = c.wires.input(
+      b.wires.input(a.wires.input(input))
+    );
+    let output = a.wires.rotorSettings.findIndex(
       (ae) =>
         ae ===
-        this.b.rotorSettings.findIndex(
+        b.wires.rotorSettings.findIndex(
           (be) =>
             be ===
-            this.c.rotorSettings.findIndex(
+            c.wires.rotorSettings.findIndex(
               (ce) => ce === this.reflector.input(throughRotorsOnce)
             )
         )
     );
 
-    this.a.rotate();
+    this.rotors.a.wires.rotate();
     if (this.plugboard[output] !== undefined) output = this.plugboard[output];
 
     return output;
