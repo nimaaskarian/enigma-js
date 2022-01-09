@@ -92,10 +92,14 @@ class Enigma {
     this.rotors = {};
     ["a", "b", "c"].forEach((key, index) => {
       this.rotors[key] = {};
-      this.rotors[key].wires = new Rotor(
-        Object.keys(machineSettings.rotors)[+index],
-        Object.values(machineSettings.rotors)[+index]
-      );
+      try {
+        this.rotors[key].wires = new Rotor(
+          Object.keys(machineSettings.rotors)[+index],
+          Object.values(machineSettings.rotors)[+index]
+        );
+      } catch (error) {
+        console.log(error)
+      }
       this.rotors[key].notch = 25;
       console.log(machineSettings.notchs);
       if (

@@ -25,11 +25,6 @@
       <input type="text" name="text" class="text-input" />
       <p class="text-output"></p>
     </div>
-    <!-- <i class="fa fa-heart"></i> -->
-    <div class="alert copy">Copied!</div>
-
-    <div class="alert-error copy">Error! check console for details</div>
-
     <div class="menu modal" style="display: none">
       <div class="menu-options">
         <a href="#themes">
@@ -50,9 +45,7 @@
       </div>
     </div>
     <div class="themes modal" style="display: none">
-      <div class="themes-options">
-        
-      </div>
+      <div class="themes-options"></div>
     </div>
     <div class="settings modal" style="display: none">
       <!-- style="display: none" -->
@@ -91,6 +84,15 @@
             <label for="">Plugs:</label>
             <input type="text" class="plugs" />
           </div>
+          <h3>Notchs</h3>
+          <div>
+            <label for="">Notch A:</label>
+            <input type="text" class="notch" />
+          </div>
+          <div>
+            <label for="">Notch B:</label>
+            <input type="text" class="notch" />
+          </div>
           <div>
             <button type="button" class="settings-btn-json">
               Download as json
@@ -100,9 +102,12 @@
         </form>
       </div>
     </div>
-    
+
     <div class="alert save">Saved!</div>
     <div class="alert-error save">Error! check console for details</div>
+    <div class="alert copy">Copied!</div>
+    <div class="alert-error copy">Error! check console for details</div>
+
     <script src="./js/app.js" type="module"></script>
   </body>
 </html>

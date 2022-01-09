@@ -7,7 +7,7 @@ import {
 import themes from "./themes.js";
 window.location.hash = "";
 Object.keys(themes).forEach((themeName, index) => {
-  const theme = themes[themeName]
+  const theme = themes[themeName];
   const themeElement = document.createElement("a");
   const numberElement = document.createElement("span");
   const nameElement = document.createElement("span");
@@ -19,8 +19,8 @@ Object.keys(themes).forEach((themeName, index) => {
 
   themeElement.appendChild(numberElement);
   themeElement.appendChild(nameElement);
-  nameElement.style.setProperty("color", theme.foreground)
-  nameElement.style.setProperty("background-color", theme.background)
+  nameElement.style.setProperty("color", theme.foreground);
+  nameElement.style.setProperty("background-color", theme.background);
 
   document.querySelector(".themes-options").append(themeElement);
 });
@@ -180,6 +180,7 @@ function getSettingsFromInputs() {
   const rings = document.querySelectorAll(".settings-form .ring");
   const rotorIndexs = document.querySelectorAll(".settings-form .rotor");
   const reflector = +document.querySelector(".settings-form .reflector").value;
+  const notchs = [...document.querySelectorAll(".settings-form .notch")].map(e=>e.value)
   const plugboard = document
     .querySelector(".settings-form .plugs")
     .value.split(/\s*,\s*/g)
@@ -189,7 +190,7 @@ function getSettingsFromInputs() {
   rotorIndexs.forEach((e, i) => {
     rotors[e.value] = rings[i].value;
   });
-  return { rotors, reflector, plugboard };
+  return { rotors, reflector, plugboard, notchs };
 }
 document.querySelector(".settings-form").addEventListener("submit", (e) => {
   e.preventDefault();
