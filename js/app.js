@@ -222,6 +222,7 @@ document.querySelector(".settings-form").addEventListener("submit", (e) => {
   try {
     new Enigma(getSettingsFromInputs());
     settings = getSettingsFromInputs();
+    encryptInputAndShowOutput(input.value)
     localStorage.setItem("settings", JSON.stringify(settings))
     showAndHideAlert(".alert.save")();
     window.location.hash = "";

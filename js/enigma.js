@@ -116,10 +116,10 @@ class Enigma {
         )
           this.rotors[key].notch = machineSettings.notchs[+index];
     });
-
-    this.reflector = new Reflector(machineSettings.reflector);
-    if (!machineSettings.reflector || !this.reflector)
+    if (!machineSettings.reflector && machineSettings.reflector !== 0)
       throw new Error("Enigma needs a reflector");
+    this.reflector = new Reflector(machineSettings.reflector);
+    if (!this.reflector) throw new Error("Enigma needs a reflector");
     this.plugboard = {};
     machineSettings.plugboard.forEach((e) => {
       this.plugboard[alphabetsToPositionArray(e)[0]] =
