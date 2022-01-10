@@ -71,11 +71,15 @@ body {
   transition: ease-out 200ms;
   width: 100px;
   margin-top: 20px;
-  margin-left: calc(100% - 100px);
+}
+input[type="file"] {
+  opacity: 0;
+  position: absolute;
 }
 .settings-fileinput-label{
   width: 76px;
   text-align: center;
+  position: relative;
 }
 .themes-options {
   display: flex;
@@ -142,9 +146,6 @@ body {
 .alert {
   background-color: var(--foreground);
   color: var(--background);
-}
-input[type="file"] {
-  display: none;
 }
 
 
