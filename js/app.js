@@ -3,6 +3,7 @@ import {
   alphabetsToPositionArray,
   positionToAlphabet,
   copyTextToClipboard,
+  randomSettingsGenerator,
 } from "./utils.js";
 import themes from "./themes.js";
 window.location.hash = "";
@@ -44,12 +45,15 @@ function loadLocalstorageTheme() {
   faviconElement.href = `./icons/${theme}.png`;
 }
 loadLocalstorageTheme();
-
-let req = new XMLHttpRequest();
-req.open("GET", "./settings.json", false);
-req.send(null);
-let settings = JSON.parse(req.responseText);
-
+let settings = localStorage.getItem("settings");
+if (!settings) {
+  let req = new XMLHttpRequest();
+  req.open("GET", "./settings.json", false);
+  req.send(null);
+  settings = req.responseText;
+}
+settings = JSON.parse(settings)
+fetchSettingsToInputs(settings);
 const input = document.querySelector(".text-input");
 const output = document.querySelector(".text-output");
 
@@ -176,11 +180,32 @@ document.querySelectorAll(".modal.themes a").forEach((e) => {
 input.addEventListener("input", ({ currentTarget: { value } }) => {
   encryptInputAndShowOutput(value);
 });
+function fetchSettingsToInputs(settings) {
+  const ringsElements = document.querySelectorAll(".settings-form .ring");
+  const rotorIndexsElements = document.querySelectorAll(
+    ".settings-form .rotor"
+  );
+  const reflectorElement = document.querySelector(".settings-form .reflector");
+  const notchsElement = document.querySelectorAll(".settings-form .notch");
+  const plugsElement = document.querySelector(".settings-form .plugs");
+  Object.keys(settings.rotors).forEach((e, i) => {
+    rotorIndexsElements[i].value = e;
+    ringsElements[i].value = settings.rotors[e];
+  });
+  reflectorElement.value = settings.reflector;
+  if (settings.notchs)
+    notchsElement.forEach((e, i) => {
+      e.value = settings.notchs[i] || "";
+    });
+  plugsElement.value = settings.plugboard.toString();
+}
 function getSettingsFromInputs() {
   const rings = document.querySelectorAll(".settings-form .ring");
   const rotorIndexs = document.querySelectorAll(".settings-form .rotor");
   const reflector = +document.querySelector(".settings-form .reflector").value;
-  const notchs = [...document.querySelectorAll(".settings-form .notch")].map(e=>e.value)
+  const notchs = [...document.querySelectorAll(".settings-form .notch")].map(
+    (e) => e.value
+  );
   const plugboard = document
     .querySelector(".settings-form .plugs")
     .value.split(/\s*,\s*/g)
@@ -197,11 +222,15 @@ document.querySelector(".settings-form").addEventListener("submit", (e) => {
   try {
     new Enigma(getSettingsFromInputs());
     settings = getSettingsFromInputs();
+    localStorage.setItem("settings", JSON.stringify(settings))
     showAndHideAlert(".alert.save")();
     window.location.hash = "";
   } catch (error) {
     showAndHideAlert(".alert-error.save")(error);
   }
+});
+document.querySelector(".settings-btn-random").addEventListener("click", () => {
+  fetchSettingsToInputs(randomSettingsGenerator());
 });
 document.querySelector(".settings-btn-json").addEventListener("click", () => {
   const type = "text/json";

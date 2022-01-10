@@ -57,6 +57,14 @@ const _REFLECTOR_SETTINGS = [
     5, 21, 15, 9, 8, 0, 14, 24, 4, 3, 17, 25, 23, 22, 6, 2, 19, 10, 20, 16, 18,
     1, 13, 12, 7, 11,
   ],
+  [
+    4, 13, 10, 16, 0, 20, 24, 22, 9, 8, 2, 14, 15, 1, 11, 12, 3, 23, 25, 21, 5,
+    19, 7, 17, 6, 18,
+  ],
+  [
+    17, 3, 14, 1, 9, 13, 19, 10, 21, 4, 7, 12, 11, 5, 2, 22, 25, 0, 23, 6, 24,
+    8, 15, 18, 20, 16,
+  ],
 ];
 class Rotor {
   constructor(rotorSettingsIndex, startIndex, nextRotor) {
@@ -101,7 +109,6 @@ class Enigma {
         console.log(error);
       }
       this.rotors[key].notch = 25;
-      console.log(machineSettings.notchs);
       if (machineSettings.notch)
         if (
           machineSettings.notchs[+index] ||
@@ -134,7 +141,6 @@ class Enigma {
   encrypt(input) {
     if (this.plugboard[input] !== undefined) input = this.plugboard[input];
     const { a, b, c } = this.rotors;
-    console.log(this.rotors);
     if (a.wires.startIndex === a.notch) b.wires.rotate();
 
     if (b.wires.startIndex === b.notch) c.wires.rotate();
