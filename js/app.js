@@ -52,7 +52,7 @@ if (!settings) {
   req.send(null);
   settings = req.responseText;
 }
-settings = JSON.parse(settings)
+settings = JSON.parse(settings);
 fetchSettingsToInputs(settings);
 const input = document.querySelector(".text-input");
 const output = document.querySelector(".text-output");
@@ -222,8 +222,8 @@ document.querySelector(".settings-form").addEventListener("submit", (e) => {
   try {
     new Enigma(getSettingsFromInputs());
     settings = getSettingsFromInputs();
-    encryptInputAndShowOutput(input.value)
-    localStorage.setItem("settings", JSON.stringify(settings))
+    encryptInputAndShowOutput(input.value);
+    localStorage.setItem("settings", JSON.stringify(settings));
     showAndHideAlert(".alert.save")();
     window.location.hash = "";
   } catch (error) {
@@ -232,6 +232,15 @@ document.querySelector(".settings-form").addEventListener("submit", (e) => {
 });
 document.querySelector(".settings-btn-random").addEventListener("click", () => {
   fetchSettingsToInputs(randomSettingsGenerator());
+});
+document.querySelector("#settings-fileinput").addEventListener("input", (e) => {
+  const fr = new FileReader();
+  fr.readAsText(e.currentTarget.files[0]);
+  fr.onload = () => {
+    try {
+      fetchSettingsToInputs(JSON.parse(fr.result));
+    } catch (error) {}
+  };
 });
 document.querySelector(".settings-btn-json").addEventListener("click", () => {
   const type = "text/json";

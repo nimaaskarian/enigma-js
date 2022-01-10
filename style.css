@@ -61,9 +61,10 @@ body {
   border: none;
   outline: none;
 }
-.modal.settings button {
+.modal.settings button,.settings-fileinput-label {
+  font-size: 14px;
+  display: inline-block;
   font-family: Inconsolata;
-  display: inline;
   border: transparent;
   border-radius: 4px;
   padding: 10px;
@@ -71,6 +72,10 @@ body {
   width: 100px;
   margin-top: 20px;
   margin-left: calc(100% - 100px);
+}
+.settings-fileinput-label{
+  width: 76px;
+  text-align: center;
 }
 .themes-options {
   display: flex;
@@ -138,14 +143,17 @@ body {
   background-color: var(--foreground);
   color: var(--background);
 }
+input[type="file"] {
+  display: none;
+}
 
 
-.modal.settings button{
+.modal.settings button, .settings-fileinput-label{
 color: var(--foreground);
 background-color: var(--background);
 border: solid 2px var(--foreground);
 }
-.modal.settings button:hover{
+.modal.settings button:hover, .settings-fileinput-label:hover{
 background-color: var(--foreground);
 color: var(--background);
 }
