@@ -1,6 +1,6 @@
 # Enigma JS
 The original 1930s Enigma with the same logic and a minimalist and modern look. have fun playing around.  
-You can try it out with at [here](https://nimaaskarian.github.io/enigma-js/).  
+You can try it out at [here](https://nimaaskarian.github.io/enigma-js/).  
 Just don't send daily weather reports with it and be careful about who you hail.  
 ## Installation
 You don't need to install enigma-js on your local PC, as its hosted on github. but if you wanted to, you can download the zip version of this projects master branch and extract it on your local computer. 
