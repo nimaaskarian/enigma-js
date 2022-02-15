@@ -6,7 +6,7 @@ Just don't send daily weather reports with it and be careful about who you hail.
 You don't need to install enigma-js on your local PC, as its hosted on github. but if you wanted to, you can download the zip version of this projects master branch and extract it on your local computer. 
 I recommend to you to use [`serve`](https://www.npmjs.com/package/serve) or some type of static local server utility to open this project up on your browser.
 ## Changing the settings
-You can change its settings using apps GUI or import your friends settings by drag and dropping your friend's `settings.json` in "Import json" button at the settings  
+You can change its settings using enigma-js's own GUI or import your friends settings by drag and dropping your friend's `settings.json` in "Import json" button at the settings.
   
 You can pick 3 rotors from 9 rotors (0,8).  
 You can set a ring number for each rotor (0,25).  
