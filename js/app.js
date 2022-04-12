@@ -16,7 +16,7 @@ Object.keys(themes).forEach((themeName, index) => {
   nameElement.innerText = themeName;
   themeElement.classList.add(themeName);
   numberElement.classList.add("number");
-  numberElement.innerText = +index + 1;
+  numberElement.innerText = index === 9 ? 0 : index + 1;
 
   themeElement.appendChild(numberElement);
   themeElement.appendChild(nameElement);
@@ -91,7 +91,8 @@ function setNumbersIsEnable(isEnable, cssClass = "menu") {
     .forEach((e) => (e.style.display = isEnable ? "block" : "none"));
 }
 function clickNumber(e, cssClass = "menu") {
-  let clickedNumber = +e.code.replace("Digit", "");
+  const codeDigit = +e.code.replace("Digit", "");
+  let clickedNumber = codeDigit === 0 ? 10 : codeDigit;
   if (clickedNumber) {
     try {
       document

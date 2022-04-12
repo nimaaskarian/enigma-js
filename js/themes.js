@@ -36,4 +36,8 @@ export default {
     background: "#767a3a",
     foreground: "#3a3a3a",
   },
+  catppuccin: {
+    background: "#1a1826",
+    foreground: "#abe9b4",
+  },
 };
