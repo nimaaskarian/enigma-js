@@ -162,3 +162,8 @@ body,
 .modal {
   background-color: var(--background);
 }
+
+.buttons-wrapper{
+  display: flex;
+  gap: 10px;
+}
